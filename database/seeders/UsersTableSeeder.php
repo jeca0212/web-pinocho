@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
  
 
             'username' => 'fauno',
-            'password' => Hash::make('Je730732:)'),
+            'password' => Hash::make('123quitis(..)'),
             
         ]);
     }
