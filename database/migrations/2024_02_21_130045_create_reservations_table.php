@@ -27,7 +27,7 @@ return new class extends Migration
         $table->text('allergies')->nullable();
         $table->unsignedTinyInteger('score')->default(5);
         $table->string('status')->default('pendiente');
-        // $table->unsignedBigInteger('user_id');
+        $table->unsignedBigInteger('user_id');
         $table->timestamps();
     });
 }
