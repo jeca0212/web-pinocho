@@ -14,7 +14,7 @@ class AuthDashboardController extends Controller
         $password = $request->input('password');
     
         // Comprueba si la contraseña es 'fauno'
-        if ($username !== 'fauno' || $password !== 'Je730732:)') {
+        if ($username !== 'fauno' || $password !== '123quitis(..)') {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
     
