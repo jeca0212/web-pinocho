@@ -16,7 +16,7 @@ class CloudinaryServiceProvider extends ServiceProvider
         $cloudinary = new Cloudinary(
             [
                 'cloud' => [
-                    'cloud_name' => 'RestaurantePinocho',
+                    'cloud_name' => 'dtdvtxrdv',
                     'api_key'    => '378321527866639',
                     'api_secret' => 'NT4TPfL4HcauUosk6fUEUYKAoHo',
                 ],
