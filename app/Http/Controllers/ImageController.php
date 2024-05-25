@@ -44,17 +44,23 @@ class ImageController extends Controller
     }
 
     public function get()
-{
-    $imageName = 'principal';
-
-    try {
-        // Obtiene la URL de la imagen de Cloudinary
-        $imageUrl = cloudinary_url($imageName);
-
-        return response()->json(['image' => $imageUrl]);
-    } catch (\Exception $e) {
-        \Log::error($e->getMessage());
-        return response()->json(['error' => 'Hubo un error al obtener la imagen.', 'message' => $e->getMessage()], 500);
+    {
+        $imageName = 'principal';
+    
+        try {
+            // Obtiene la información de la imagen de Cloudinary
+            $imageInfo = cloudinary()->uploadApi()->asset($imageName);
+    
+            // Comprueba si la imagen existe
+            if ($imageInfo['status'] === 'ok') {
+                $imageUrl = $imageInfo['url'];
+                return response()->json(['image' => $imageUrl]);
+            } else {
+                return response()->json(['error' => 'La imagen no existe.'], 404);
+            }
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json(['error' => 'Hubo un error al obtener la imagen.', 'message' => $e->getMessage()], 500);
+        }
     }
-}
 }
