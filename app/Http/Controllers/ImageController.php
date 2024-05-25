@@ -8,7 +8,8 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 class ImageController extends Controller
 {
     public function update(Request $request)
-    {
+{
+    try {
         \Log::info($request->all());
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg',
@@ -27,7 +28,11 @@ class ImageController extends Controller
             'success' => 'Imagen subida con éxito.',
             'image' => $imageName
         ]);
+    } catch (\Exception $e) {
+        \Log::error($e->getMessage());
+        return response()->json(['error' => 'Hubo un error al subir la imagen.'], 500);
     }
+}
 
     public function upload(Request $request)
     {
