@@ -48,7 +48,7 @@ class ImageController extends Controller
     
         try {
             // Obtiene la URL de la imagen de Cloudinary
-            $imageUrl = \Cloudinary\Cloudinary::getInstance()->url($imageName);
+            $imageUrl = cloudinary_url($imageName);
     
             return response()->json(['image' => $imageUrl]);
         } catch (\Exception $e) {
