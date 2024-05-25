@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ImageController extends Controller
 {
@@ -15,20 +16,12 @@ class ImageController extends Controller
 
         $imageName = 'principal.' . $request->image->extension();  
 
-        // Ruta actualizada a tu carpeta `public/img/ofertas` en tu proyecto Next.js
-        $pathToNextJsPublicFolder = base_path('../front/public');
-
-        // Elimina cualquier imagen existente
-        $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-        foreach ($extensions as $extension) {
-            $oldImage = $pathToNextJsPublicFolder . "/img/ofertas/principal.{$extension}";
-            if (file_exists($oldImage)) {
-                unlink($oldImage);
-            }
-        }
-
-        // Mueve la nueva imagen
-        $request->image->move($pathToNextJsPublicFolder . '/img/ofertas/', $imageName);
+        // Carga la imagen en Cloudinary
+        $cloudinary = app('cloudinary');
+        $result = $cloudinary->uploadApi()->upload(
+            $request->file('image')->getRealPath(), 
+            ["public_id" => $imageName]
+        );
 
         return response()->json([
             'success' => 'Imagen subida con éxito.',
@@ -36,26 +29,28 @@ class ImageController extends Controller
         ]);
     }
 
+    public function upload(Request $request)
+    {
+        $image = $request->file('image');
+
+        $uploadedImage = Cloudinary::upload($image->getRealPath());
+
+        return response()->json(['url' => $uploadedImage->getSecurePath()], 200);
+    }
+
+
     public function get()
     {
-        $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-        $imagen = '';
-
-        // Ruta actualizada a tu carpeta `public/img/ofertas` en tu proyecto Next.js
-        $pathToNextJsPublicFolder = base_path('../front/public');
-
-        foreach ($extensions as $extension) {
-            if (file_exists($pathToNextJsPublicFolder . "/img/ofertas/principal.{$extension}")) {
-                $imagen = "principal.{$extension}";
-                break;
-            }
-        }
-
-        if ($imagen === '') {
+        $imageName = 'principal';
+    
+        // Obtiene la URL de la imagen de Cloudinary
+        $cloudinary = app('cloudinary');
+        $imageUrl = $cloudinary->api()->resource($imageName)['secure_url'];
+    
+        if (!$imageUrl) {
             return response()->json(['error' => 'Imagen no encontrada'], 404);
         }
-
-        // Esta ruta es relativa a la raíz de tu proyecto Next.js
-        return response()->json(['image' => "/img/ofertas/{$imagen}"]);
+    
+        return response()->json(['image' => $imageUrl]);
     }
 }
