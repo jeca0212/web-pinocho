@@ -17,9 +17,9 @@ class CloudinaryServiceProvider extends ServiceProvider
 
         $config = Configuration::instance([
             'cloud' => [
-                'cloud_name' => 'dtdvtxrdv',
-                'api_key'    => '378321527866639',
-                'api_secret' => 'NT4TPfL4HcauUosk6fUEUYKAoHo',
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
             ],
         ]);
 
