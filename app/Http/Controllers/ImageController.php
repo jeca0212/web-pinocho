@@ -45,24 +45,17 @@ class ImageController extends Controller
 
 
     public function get()
-{
-    $imageName = 'principal';
-
-    try {
-        // Obtiene la URL de la imagen de Cloudinary
-        $cloudinary = app('cloudinary');
-        $resource = $cloudinary->api()->resource($imageName);
-
-        if (!isset($resource['secure_url'])) {
-            return response()->json(['error' => 'URL de la imagen no encontrada'], 404);
+    {
+        $imageName = 'principal';
+    
+        try {
+            // Obtiene la URL de la imagen de Cloudinary
+            $imageUrl = Cloudinary::secureShow($imageName);
+    
+            return response()->json(['image' => $imageUrl]);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json(['error' => 'Hubo un error al obtener la imagen.', 'message' => $e->getMessage()], 500);
         }
-
-        $imageUrl = $resource['secure_url'];
-
-        return response()->json(['image' => $imageUrl]);
-    } catch (\Exception $e) {
-        \Log::error($e->getMessage());
-        return response()->json(['error' => 'Hubo un error al obtener la imagen.', 'message' => $e->getMessage()], 500);
     }
-}
 }
