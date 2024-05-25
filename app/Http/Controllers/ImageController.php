@@ -42,14 +42,13 @@ class ImageController extends Controller
 
         return response()->json(['url' => $uploadedImage->getSecurePath()], 200);
     }
-
     public function get()
     {
         $imageName = 'principal';
     
         try {
             // Obtiene la URL de la imagen de Cloudinary
-            $imageUrl = cloudinary_url($imageName);
+            $imageUrl = \Cloudinary\Cloudinary::getInstance()->url($imageName);
     
             return response()->json(['image' => $imageUrl]);
         } catch (\Exception $e) {
