@@ -50,15 +50,9 @@ class ImageController extends Controller
 
     try {
         // Obtiene la URL de la imagen de Cloudinary
-        $imageDetails = Cloudinary::getImage($imageName);
+        $imageUrl = Cloudinary::secureShow($imageName);
 
-        // Asegúrate de que la imagen existe
-        if ($imageDetails) {
-            $imageUrl = $imageDetails['secure_url'];
-            return response()->json(['image' => $imageUrl]);
-        } else {
-            return response()->json(['error' => 'La imagen no existe.'], 404);
-        }
+        return response()->json(['image' => $imageUrl]);
     } catch (\Exception $e) {
         \Log::error($e->getMessage());
         return response()->json(['error' => 'Hubo un error al obtener la imagen.', 'message' => $e->getMessage()], 500);
