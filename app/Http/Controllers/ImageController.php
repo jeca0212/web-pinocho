@@ -7,32 +7,32 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ImageController extends Controller
 {
-    public function update(Request $request)
-    {
-        try {
-            \Log::info($request->all());
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg',
-            ]);
-    
-            $imageName = 'principal.' . $request->image->extension();  
-    
-            // Carga la imagen en Cloudinary
-            $cloudinary = app('cloudinary');
-            $result = $cloudinary->uploadApi()->upload(
-                $request->file('image')->getRealPath(), 
-                ["public_id" => $imageName]
-            );
-    
-            return response()->json([
-                'success' => 'Imagen subida con éxito.',
-                'image' => $imageName
-            ]);
-        } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            return response()->json(['error' => 'Hubo un error al subir la imagen.', 'message' => $e->getMessage()], 500);
-        }
+   public function update(Request $request)
+{
+    try {
+        \Log::info($request->all());
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg',
+        ]);
+
+        $imageName = 'principal.' . $request->image->extension();  
+
+        // Carga la imagen en Cloudinary
+        $cloudinary = app('cloudinary');
+        $result = $cloudinary->uploadApi()->upload(
+            $request->file('image')->getRealPath(), 
+            ["public_id" => $imageName]
+        );
+
+        return response()->json([
+            'success' => 'Imagen subida con éxito.',
+            'image' => $imageName
+        ]);
+    } catch (\Exception $e) {
+        \Log::error($e->getMessage());
+        return response()->json(['error' => 'Hubo un error al subir la imagen.', 'message' => $e->getMessage()], 500);
     }
+}
 
     public function upload(Request $request)
     {
@@ -45,17 +45,24 @@ class ImageController extends Controller
 
 
     public function get()
-    {
-        $imageName = 'principal';
-    
+{
+    $imageName = 'principal';
+
+    try {
         // Obtiene la URL de la imagen de Cloudinary
         $cloudinary = app('cloudinary');
-        $imageUrl = $cloudinary->api()->resource($imageName)['secure_url'];
-    
-        if (!$imageUrl) {
-            return response()->json(['error' => 'Imagen no encontrada'], 404);
+        $resource = $cloudinary->api()->resource($imageName);
+
+        if (!isset($resource['secure_url'])) {
+            return response()->json(['error' => 'URL de la imagen no encontrada'], 404);
         }
-    
+
+        $imageUrl = $resource['secure_url'];
+
         return response()->json(['image' => $imageUrl]);
+    } catch (\Exception $e) {
+        \Log::error($e->getMessage());
+        return response()->json(['error' => 'Hubo un error al obtener la imagen.', 'message' => $e->getMessage()], 500);
     }
+}
 }
