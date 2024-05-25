@@ -11,7 +11,7 @@ class CloudinaryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        require_once __DIR__ . '/../vendor/autoload.php';
+        require_once base_path() . '/vendor/autoload.php';
 
         $cloudinary = new Cloudinary(
             [
