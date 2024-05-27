@@ -21,7 +21,7 @@ class ImageController extends Controller
         // Elimina cualquier imagen existente
         $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         foreach ($extensions as $extension) {
-            $oldImage = $pathToVolume . "/principal.{$extension}";
+            $oldImage = $pathToVolume . "ofertas/principal.{$extension}";
             if (file_exists($oldImage)) {
                 unlink($oldImage);
             }
@@ -45,7 +45,7 @@ class ImageController extends Controller
         $pathToVolume = '/ofertas';
 
         foreach ($extensions as $extension) {
-            if (file_exists($pathToVolume . "/principal.{$extension}")) {
+            if (file_exists($pathToVolume . "/ofertas/principal.{$extension}")) {
                 $imagen = "principal.{$extension}";
                 break;
             }
