@@ -16,7 +16,7 @@ class ImageController extends Controller
         $imageName = 'principal.' . $request->image->extension();  
 
         // Ruta actualizada a tu volumen `/ofertas`
-        $pathToVolume = 'web-pinochp/ofertas';
+        $pathToVolume = '/ofertas';
 
         // Elimina cualquier imagen existente
         $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
@@ -56,6 +56,6 @@ class ImageController extends Controller
         }
 
         // Esta ruta es relativa a la raíz de tu volumen
-        return response()->json(['image' => "web-pinocho/ofertas/{$imagen}"]);
+        return response()->json(['image' => "/ofertas/{$imagen}"]);
     }
 }
