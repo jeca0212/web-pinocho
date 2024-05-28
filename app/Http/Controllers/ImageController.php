@@ -37,30 +37,30 @@ class ImageController extends Controller
     }
 
     public function get()
-{
-    $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-    $imagen = '';
-
-    // Ruta actualizada a tu volumen `/ofertas`
-    $pathToVolume = '/app/storage';
-
-    foreach ($extensions as $extension) {
-        if (file_exists($pathToVolume . "/principal.{$extension}")) {
-            $imagen = "principal.{$extension}";
-            break;
+    {
+        $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+        $imagen = '';
+    
+        // Ruta actualizada a tu volumen `/app/storage`
+        $pathToVolume = storage_path('app');
+    
+        foreach ($extensions as $extension) {
+            if (file_exists($pathToVolume . "/principal.{$extension}")) {
+                $imagen = "principal.{$extension}";
+                break;
+            }
         }
+    
+        if ($imagen === '') {
+            return response()->json(['error' => 'Imagen no encontrada'], 404);
+        }
+    
+        // Construir la URL de la imagen
+        $imageUrl = asset("storage/$imagen");
+    
+        // Devolver la URL de la imagen en un objeto JSON
+        return response()->json(['image' => $imageUrl]);
     }
-
-    if ($imagen === '') {
-        return response()->json(['error' => 'Imagen no encontrada'], 404);
-    }
-
-    // Construir la URL de la imagen
-    $imageUrl = secure_url("/storage/$imagen");
-
-    // Devolver la URL de la imagen en un objeto JSON
-    return response()->json(['image' => $imageUrl]);
-}
 
 
 public function serveImage($filename)
