@@ -59,6 +59,7 @@ Route::get('/reservations/aceptadas', [ReservationController::class, 'getAceptad
 Route::get('/reservations/rechazadas', [ReservationController::class, 'getRechazadas']);
 Route::get('/reservations', [ReservationController::class, 'getReservations']);
 Route::get('/checkScore/{phone}/{email}', [ReservationController::class, 'checkScore']);
+Route::get('/storage/{filename}', [ImageController::class, 'serveImage']);
 // Route::get('/reservations/aceptadas', [ReservationController::class, 'getAceptadas']);
 // Route::get('/reservations/rechazadas', [ReservationController::class, 'getRechazadas']);
 // Route::get('/reservations', [ReservationController::class, 'getReservations']);

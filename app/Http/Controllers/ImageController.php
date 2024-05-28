@@ -61,4 +61,16 @@ class ImageController extends Controller
     // Devolver la URL de la imagen en un objeto JSON
     return response()->json(['image' => $imageUrl]);
 }
+
+
+public function serveImage($filename)
+{
+    $path = storage_path('app/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+}
 }
