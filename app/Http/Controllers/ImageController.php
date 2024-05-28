@@ -15,13 +15,13 @@ class ImageController extends Controller
 
         $imageName = 'principal.' . $request->image->extension();  
 
-        // Ruta actualizada a tu volumen `/ofertas`
-        $pathToVolume = '/ofertas';
+      
+        $pathToVolume = '/app/storage';
 
-        // Elimina cualquier imagen existente
+        
         $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         foreach ($extensions as $extension) {
-            $oldImage = $pathToVolume . "ofertas/principal.{$extension}";
+            $oldImage = $pathToVolume . "/app/storage/principal.{$extension}";
             if (file_exists($oldImage)) {
                 unlink($oldImage);
             }
@@ -42,10 +42,10 @@ class ImageController extends Controller
         $imagen = '';
 
         // Ruta actualizada a tu volumen `/ofertas`
-        $pathToVolume = '/ofertas';
+        $pathToVolume = '/app/storage';
 
         foreach ($extensions as $extension) {
-            if (file_exists($pathToVolume . "/ofertas/principal.{$extension}")) {
+            if (file_exists($pathToVolume . "/app/storage/principal.{$extension}")) {
                 $imagen = "principal.{$extension}";
                 break;
             }
@@ -55,7 +55,7 @@ class ImageController extends Controller
             return response()->json(['error' => 'Imagen no encontrada'], 404);
         }
 
-        // Esta ruta es relativa a la raíz de tu volumen
-        return response()->json(['image' => "/ofertas/{$imagen}"]);
+        
+        return response()->json(['image' => "/app/storage/{$imagen}"]);
     }
 }
