@@ -55,12 +55,10 @@ class ImageController extends Controller
             return response()->json(['error' => 'Imagen no encontrada'], 404);
         }
     
-        // Leer la imagen del sistema de archivos
-        $path = $pathToVolume . '/' . $imagen;
-        $file = File::get($path);
-        $type = File::mimeType($path);
+        // Crear la URL segura de la imagen
+        $url = secure_url($pathToVolume . '/' . $imagen);
     
-        // Enviar la imagen como una respuesta HTTP
-        return response($file, 200)->header("Content-Type", $type);
+        // Devolver la URL de la imagen como un objeto JSON
+        return response()->json(['url' => $url]);
     }
 }
