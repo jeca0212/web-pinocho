@@ -21,7 +21,7 @@ class ImageController extends Controller
         
         $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         foreach ($extensions as $extension) {
-            $oldImage = $pathToVolume . "/app/storage/principal.{$extension}";
+            $oldImage = $pathToVolume . "/principal.{$extension}";
             if (file_exists($oldImage)) {
                 unlink($oldImage);
             }
@@ -45,7 +45,7 @@ class ImageController extends Controller
         $pathToVolume = '/app/storage';
 
         foreach ($extensions as $extension) {
-            if (file_exists($pathToVolume . "/app/storage/principal.{$extension}")) {
+            if (file_exists($pathToVolume . "/principal.{$extension}")) {
                 $imagen = "principal.{$extension}";
                 break;
             }
