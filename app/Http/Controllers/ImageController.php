@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
+
 
 class ImageController extends Controller
 {
@@ -15,19 +18,16 @@ class ImageController extends Controller
 
         $imageName = 'principal.' . $request->image->extension();  
 
-      
         $pathToVolume = '/app/storage';
 
-        
         $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         foreach ($extensions as $extension) {
             $oldImage = $pathToVolume . "/principal.{$extension}";
-            if (file_exists($oldImage)) {
-                unlink($oldImage);
+            if (File::exists($oldImage)) {
+                File::delete($oldImage);
             }
         }
 
-        // Mueve la nueva imagen
         $request->image->move($pathToVolume, $imageName);
 
         return response()->json([
