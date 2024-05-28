@@ -40,22 +40,27 @@ class ImageController extends Controller
     {
         $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         $imagen = '';
-
+    
         // Ruta actualizada a tu volumen `/ofertas`
         $pathToVolume = '/app/storage';
-
+    
         foreach ($extensions as $extension) {
             if (file_exists($pathToVolume . "/principal.{$extension}")) {
                 $imagen = "principal.{$extension}";
                 break;
             }
         }
-
+    
         if ($imagen === '') {
             return response()->json(['error' => 'Imagen no encontrada'], 404);
         }
-
-        
-        return response()->json(['image' => "/app/storage/{$imagen}"]);
+    
+        // Leer la imagen del sistema de archivos
+        $path = $pathToVolume . '/' . $imagen;
+        $file = File::get($path);
+        $type = File::mimeType($path);
+    
+        // Enviar la imagen como una respuesta HTTP
+        return response($file, 200)->header("Content-Type", $type);
     }
 }
