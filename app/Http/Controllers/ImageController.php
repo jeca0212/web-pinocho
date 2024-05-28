@@ -37,40 +37,30 @@ class ImageController extends Controller
     }
 
     public function get()
-{
-    $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-    $imagen = '';
-
-    // Ruta actualizada a tu volumen `/ofertas`
-    $pathToVolume = '/app/storage';
-
-    foreach ($extensions as $extension) {
-        if (file_exists($pathToVolume . "/principal.{$extension}")) {
-            $imagen = "principal.{$extension}";
-            break;
+    {
+        $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+        $imagen = '';
+    
+        // Ruta actualizada a tu volumen `/ofertas`
+        $pathToVolume = '/app/storage';
+    
+        foreach ($extensions as $extension) {
+            if (file_exists($pathToVolume . "/principal.{$extension}")) {
+                $imagen = "principal.{$extension}";
+                break;
+            }
         }
+    
+        if ($imagen === '') {
+            return response()->json(['error' => 'Imagen no encontrada'], 404);
+        }
+    
+        // Leer la imagen del sistema de archivos
+        $path = $pathToVolume . '/' . $imagen;
+        $file = File::get($path);
+        $type = File::mimeType($path);
+    
+        // Enviar la imagen como una respuesta HTTP
+        return response($file, 200)->header("Content-Type", $type);
     }
-
-    if ($imagen === '') {
-        return response()->json(['error' => 'Imagen no encontrada'], 404);
-    }
-
-    // Construir la URL de la imagen
-    $imageUrl = secure_url("/app/storage/$imagen");
-
-    // Devolver la URL de la imagen en un objeto JSON
-    return response()->json(['image' => $imageUrl]);
-}
-
-
-public function serveImage($filename)
-{
-    $path = storage_path('app/' . $filename);
-
-    if (!File::exists($path)) {
-        abort(404);
-    }
-
-    return response()->file($path);
-}
 }
