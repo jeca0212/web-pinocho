@@ -56,7 +56,7 @@ class ImageController extends Controller
     }
 
     // Construir la URL de la imagen
-    $imageUrl = url("/app/storage/$imagen");
+    $imageUrl = secure_url("/app/storage/$imagen");
 
     // Devolver la URL de la imagen en un objeto JSON
     return response()->json(['image' => $imageUrl]);
