@@ -16,7 +16,11 @@ class ReservationController extends Controller
 {
     public function store(Request $request)
     {
-        $totalReserved = Reservation::sum('people');
+        // Obtén la fecha de la reserva del request
+        $reservationDate = $request->input('date');
+    
+        // Calcula el total de personas reservadas para la fecha de la reserva
+        $totalReserved = Reservation::whereDate('date', $reservationDate)->sum('people');
         $newReservation = $request->people;
     
         if (($totalReserved + $newReservation) > 75) {
