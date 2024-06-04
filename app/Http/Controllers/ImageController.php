@@ -41,7 +41,7 @@ class ImageController extends Controller
         $extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         $imagen = '';
     
-        // Ruta actualizada a tu volumen `/ofertas`
+        
         $pathToVolume = '/app/storage';
     
         foreach ($extensions as $extension) {
@@ -55,10 +55,10 @@ class ImageController extends Controller
             return response()->json(['error' => 'Imagen no encontrada'], 404);
         }
     
-        // Crear la URL segura de la imagen
+        
         $url = secure_url($pathToVolume . '/' . $imagen);
     
-        // Devolver la URL de la imagen como un objeto JSON
+        
         return response()->json(['url' => $url]);
     }
 }

@@ -21,7 +21,12 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        // \App\Http\Middleware\OwnCors::class,
+         \App\Http\Middleware\OwnCors::class,
+    ];
+
+    protected $routeMiddleware = [
+        // ...
+        'cors' => \App\Http\Middleware\OwnCors::class,
     ];
 
     /**
