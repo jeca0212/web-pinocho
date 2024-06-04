@@ -22,11 +22,6 @@ class OwnCors
             'Access-Control-Allow-Headers' => 'Content-Type, X-Auth-Token, Origin, Authorization'
         ];
 
-        if ($request->getMethod() == "OPTIONS") {
-            return response('OK')
-                ->withHeaders($headers);
-        }
-
         $response = $next($request);
         foreach ($headers as $key => $value) {
             $response->header($key, $value);
