@@ -276,5 +276,16 @@ public function cancelByClient($id)
 
     return response()->json(['message' => 'Reservation successfully cancelled.']);
 }
+public function searchByDate(Request $request)
+{
+    // Obtener la fecha de búsqueda del request
+    $searchDate = $request->input('date');
+
+    // Buscar reservas que coincidan con la fecha proporcionada
+    $reservations = Reservation::whereDate('date', $searchDate)->get();
+
+    // Devolver las reservas encontradas
+    return response()->json($reservations);
+}
 
 }

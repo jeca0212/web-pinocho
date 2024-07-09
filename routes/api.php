@@ -51,6 +51,7 @@ Route::put('/reservations/{id}/accept', [ReservationController::class, 'accept']
 
 Route::put('/parrafos/{id}', [ParagraphController::class, 'update']);
 
+Route::get('/reservations/search-by-date', [ReservationController::class, 'searchByDate']);
 Route::get('/get-image', [ImageController::class, 'get']);
 Route::get('/reservations/{id}', [ReservationController::class, 'show']);
 Route::get('/parrafos', [ParagraphController::class, 'index']);
