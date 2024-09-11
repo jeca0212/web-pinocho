@@ -13,7 +13,10 @@ class ParrafosTableSeeder extends Seeder
      * @return void
      */
     public function run()
+    
     {
+        Parrafo::truncate();
+
         // Acompañamientos
         Parrafo::create([
             'contenido' => 'Acompañamiento 1',
