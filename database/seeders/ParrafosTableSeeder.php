@@ -24,7 +24,10 @@ class ParrafosTableSeeder extends Seeder
         ]);
 
         Parrafo::create([
-            'contenido' => 'Acompañamiento 3',
+            'contenido' => 'Principal 3',
+        ]);
+        Parrafo::create([
+            'contenido' => 'Principal 4',
         ]);
 
         // Principales
@@ -38,6 +41,9 @@ class ParrafosTableSeeder extends Seeder
 
         Parrafo::create([
             'contenido' => 'Principal 3',
+        ]);
+        Parrafo::create([
+            'contenido' => 'Principal 4',
         ]);
     }
 }
