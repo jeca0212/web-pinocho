@@ -23,7 +23,7 @@ class OwnerCancellationNotification extends Mailable
     public function build()
     {
         return $this
-            ->subject('Una reserva en Restaurante Pinocho ha sido cancelada')
+            ->subject('Una reserva en Restaurante Pinocho ha sido cancelada!')
             ->view('emails.ownerCancellationNotification')
             ->with([
                 'reservationDetails' => $this->reservation
