@@ -25,6 +25,10 @@ use App\Http\Controllers\ImageController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// 🔹 Opciones para CORS (preflight) en toda la API
+Route::options('{any}', function () {
+    return response()->noContent();
+})->where('any', '.*');
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
