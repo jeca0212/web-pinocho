@@ -44,10 +44,10 @@ class ReservationController extends Controller
         $reservation->status = 'pendiente';
         $reservation->save();
     
-        Mail::to($validated['email'])->send(new ReservationConfirmation($reservation)); // Usa el email de la solicitud
+        Mail::to($validated['email'])->queue(new ReservationConfirmation($reservation));// Usa el email de la solicitud
     
         $ownerEmail = env('OWNER_EMAIL');
-        Mail::to($ownerEmail)->send(new OwnerReservationNotification($reservation));
+        Mail::to($ownerEmail)->queue(new OwnerReservationNotification($reservation));
     
         return response()->json(['message' => 'Reservation successfully created.']);
     }
@@ -116,12 +116,8 @@ public function accept(Request $request, $id)
     ];
 
 
-    Mail::send('emails.pinocho', $data, function($message) use ($ownerEmail, $clientEmail) {
-        $message->to($ownerEmail)
-                ->subject('Reserva Aceptada');
-        $message->to($clientEmail)
-                ->subject('Reserva Aceptada');
-    });
+   Mail::to($ownerEmail)->queue(new ReservationConfirmation($reservation));
+Mail::to($clientEmail)->queue(new ReservationNotification($reservation));
    
 
     return response()->json($reservation, 200);
@@ -150,12 +146,9 @@ public function cancel(Request $request, $id)
         'reservationDetails' => $reservationDetails
     ];
 
-    Mail::send('emails.pinochoCancel', $data, function($message) use ($ownerEmail, $clientEmail) {
-        $message->to($ownerEmail)
-                ->subject('Reserva Cancelada');
-        $message->to($clientEmail)
-                ->subject('Reserva Cancelada');
-    });
+  Mail::to($ownerEmail)->queue(new OwnerCancellationNotification($reservation));
+Mail::to($clientEmail)->queue(new ReservationCancellation($reservation));
+    
 
     return response()->json($reservation, 200);
 }
@@ -268,11 +261,11 @@ public function cancelByClient($id)
     $reservation->save();
 
     // Enviar correo electrónico de cancelación al cliente
-    Mail::to($reservation->email)->send(new ReservationCancellation($reservation));
+    Mail::to($reservation->email)->queue(new ReservationCancellation($reservation));
 
     // Enviar correo electrónico de notificación de cancelación al propietario
     $ownerEmail = env('OWNER_EMAIL');
-    Mail::to($ownerEmail)->send(new OwnerCancellationNotification($reservation));
+    Mail::to($ownerEmail)->queue(new OwnerCancellationNotification($reservation));
 
     return response()->json(['message' => 'Reservation successfully cancelled.']);
 }
