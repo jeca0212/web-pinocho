@@ -116,8 +116,10 @@ public function accept(Request $request, $id)
     ];
 
 
-   Mail::to($ownerEmail)->queue(new ReservationConfirmation($reservation));
-Mail::to($clientEmail)->queue(new ReservationNotification($reservation));
+ 
+Mail::to($ownerEmail)->queue(new OwnerReservationNotification($reservation));
+Mail::to($clientEmail)->queue(new ReservationConfirmation($reservation));
+
    
 
     return response()->json($reservation, 200);

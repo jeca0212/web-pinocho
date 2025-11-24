@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Reservation;
 
-class OwnerReservationNotification extends Mailable
+class OwnerReservationNotification extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

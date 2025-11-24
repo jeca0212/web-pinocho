@@ -9,7 +9,7 @@ use App\Models\Reservation;
 
 
 
-class OwnerCancellationNotification extends Mailable
+class OwnerCancellationNotification extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
