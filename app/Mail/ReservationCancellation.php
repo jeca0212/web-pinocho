@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Reservation;
 
-class ReservationCancellation extends Mailable implements ShouldQueue
+class ReservationCancellation extends Mailable 
 {
     use Queueable, SerializesModels;
 
