@@ -15,12 +15,15 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie','api'],
+  'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [ 'https://www.restaurantepinochozaragoza.es'],
-    
+    'allowed_origins' => [
+        'https://www.restaurantepinochozaragoza.es',
+        'https://restaurantepinochozaragoza.es'
+    ],
+
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
@@ -29,6 +32,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => false, // deja false si no usas cookies en API
 
 ];
