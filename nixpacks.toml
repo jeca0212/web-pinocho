@@ -7,6 +7,9 @@ nixPkgs = [
   "php81Extensions.xml",
   "php81Extensions.zip"
 ]
+cmds = [
+  "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer"
+]
 
 [phases.build]
 cmds = [
@@ -17,3 +20,4 @@ cmds = [
   "php artisan cache:clear",
   "chmod -R 775 storage bootstrap/cache"
 ]
+
