@@ -51,16 +51,14 @@ class ReservationController extends Controller
     // ✅ Enviar correos después (sin bloquear la respuesta)
 
 register_shutdown_function(function() use ($validated, $reservation) {
-    try {
-        // Forzar Mailgun para el cliente
-        Mail::mailer('mailgun')->to($validated['email'])->send(new ReservationConfirmation($reservation));
+  
+try {
+    Mail::mailer('mailgun')->to($validated['email'])->send(new ReservationConfirmation($reservation));
+    Mail::mailer('mailgun')->to(env('OWNER_EMAIL'))->send(new OwnerReservationNotification($reservation));
+} catch (\Exception $e) {
+    \Log::error('Error enviando correo: '.$e->getMessage());
+}
 
-        // Forzar Mailgun para el dueño
-        $ownerEmail = env('OWNER_EMAIL');
-        Mail::mailer('mailgun')->to($ownerEmail)->send(new OwnerReservationNotification($reservation));
-    } catch (\Exception $e) {
-        \Log::error('Error enviando correo: '.$e->getMessage());
-    }
 });
 
 
