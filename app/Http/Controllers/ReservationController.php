@@ -44,13 +44,24 @@ class ReservationController extends Controller
         $reservation->status = 'pendiente';
         $reservation->save();
     
-        Mail::to($validated['email'])->send(new ReservationConfirmation($reservation)); // Usa el email de la solicitud
-    
-        $ownerEmail = env('OWNER_EMAIL');
-        Mail::to($ownerEmail)->send(new OwnerReservationNotification($reservation));
-    
-        return response()->json(['message' => 'Reservation successfully created.']);
-    }
+       
+    // ✅ Responder primero
+    $response = response()->json(['message' => 'Reservation successfully created.']);
+
+    // ✅ Enviar correos después (sin bloquear la respuesta)
+    register_shutdown_function(function() use ($validated, $reservation) {
+        try {
+            Mail::to($validated['email'])->send(new ReservationConfirmation($reservation));
+            $ownerEmail = env('OWNER_EMAIL');
+            Mail::to($ownerEmail)->send(new OwnerReservationNotification($reservation));
+        } catch (\Exception $e) {
+            \Log::error('Error enviando correo: '.$e->getMessage());
+        }
+    });
+
+    return $response;
+}
+
     public function index(Request $request)
     {
         $query = Reservation::query();
