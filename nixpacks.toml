@@ -1,0 +1,19 @@
+
+[phases.setup]
+nixPkgs = [
+  "php81",
+  "php81Extensions.curl",
+  "php81Extensions.mbstring",
+  "php81Extensions.xml",
+  "php81Extensions.zip"
+]
+
+[phases.build]
+cmds = [
+  "composer install --no-dev --optimize-autoloader",
+  "npm install",
+  "npm run build",
+  "php artisan config:clear",
+  "php artisan cache:clear",
+  "chmod -R 775 storage bootstrap/cache"
+]
