@@ -3,10 +3,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmación de Reserva</title>
+    <title>Solicitud de Reserva</title>
 </head>
 <body>
-    <h1>Confirmación de Reserva</h1>
+    <h1>Solicitud de Reserva</h1>
     <p>Hola {{ $reservationDetails->name }},</p>
     <p>Tu reserva para el {{ $reservationDetails->date }} a las {{ $reservationDetails->time }} será confirmada lo antes posible.</p>
     <p>Detalles de la reserva:</p>
